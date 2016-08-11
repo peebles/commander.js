@@ -1,17 +1,17 @@
 {
-  "name": "commander",
-  "version": "2.9.0",
-  "description": "the complete solution for node.js command-line programs",
+  "name": "peeb-commander",
+  "version": "0.0.1",
+  "description": "A better version of Commander.js",
   "keywords": [
     "command",
     "option",
     "parser"
   ],
-  "author": "TJ Holowaychuk <tj@vision-media.ca>",
+  "author": "Andrew Peebles <aqpeeb@gmail.com>",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/tj/commander.js.git"
+    "url": "https://github.com/peebles/commander.js.git"
   },
   "devDependencies": {
     "should": ">= 0.0.1",
