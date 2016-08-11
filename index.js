@@ -664,16 +664,6 @@ Command.prototype.parseOptions = function(argv) {
     , option
     , arg;
   
-  // if no argv, then check if some required option
-  if (len === 0) {
-    for (var j = 0, optionLen = this.options.length; j < optionLen; ++j) {
-      option = this.options[j];
-      if (option.required && option.defaultValue === undefined) {
-        return this.optionMissingArgument(option);
-      }
-    }
-  }
-
   var unknownOptions = [];
 
   // parse options
@@ -734,6 +724,15 @@ Command.prototype.parseOptions = function(argv) {
     args.push(arg);
   }
 
+  // (qp) check if some required option
+  for (var j = 0, optionLen = this.options.length; j < optionLen; ++j) {
+    option = this.options[j];
+    var oName = camelcase(option.name());
+    if (option.required && this[ oName ] === undefined) {
+      return this.optionMissingArgument(option);
+    }
+  }
+
   return { args: args, unknown: unknownOptions };
 };
 
@@ -764,6 +763,7 @@ Command.prototype.opts = function() {
 Command.prototype.missingArgument = function(name) {
   console.error();
   console.error("  error: missing required argument `%s'", name);
+  this.outputHelp();
   console.error();
   process.exit(1);
 };
@@ -783,6 +783,7 @@ Command.prototype.optionMissingArgument = function(option, flag) {
   } else {
     console.error("  error: option `%s' argument missing", option.flags);
   }
+  this.outputHelp();
   console.error();
   process.exit(1);
 };
@@ -798,6 +799,7 @@ Command.prototype.unknownOption = function(flag) {
   if (this._allowUnknownOption) return;
   console.error();
   console.error("  error: unknown option `%s'", flag);
+  this.outputHelp();
   console.error();
   process.exit(1);
 };
@@ -812,6 +814,7 @@ Command.prototype.unknownOption = function(flag) {
 Command.prototype.variadicArgNotLast = function(name) {
   console.error();
   console.error("  error: variadic arguments must be last `%s'", name);
+  this.outputHelp();
   console.error();
   process.exit(1);
 };
